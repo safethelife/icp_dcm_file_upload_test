@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "dcm_reader_backend": {
+      "main": "src/dcm_reader_backend/main.mo",
+      "type": "motoko"
+    },
+    "dcm_reader_frontend": {
+      "dependencies": [
+        "dcm_reader_backend"
+      ],
+      "source": [
+        "src/dcm_reader_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "dcm_reader_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
