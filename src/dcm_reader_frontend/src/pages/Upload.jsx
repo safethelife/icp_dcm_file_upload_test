@@ -20,13 +20,13 @@ function Upload() {
             const uint8Array = new Uint8Array(arrayBuffer);
             try {
                 const result = await DcmUploader.uploadFile(file.name, uint8Array);
-                alert(result); // 캐니스터에서 받은 응답을 표시
-                fetchFileList(); // 성공 시 파일 목록을 다시 가져옵니다.
+                alert(result); // alert the response from canister
+                fetchFileList(); // if success, get the file list
             } catch (error) {
                 if (error.message.includes('Code: 413')) {
-                    alert('File is too big'); // 파일 크기가 너무 큰 경우
+                    alert('File is too big'); // in case the file's size is bigger than 2MB
                 } else {
-                    alert('Upload failed: ' + error.message); // 그 외의 에러 메시지를 표시
+                    alert('Upload failed: ' + error.message); // another error message
                 }
             }
         } else {
@@ -37,7 +37,7 @@ function Upload() {
     const fetchFileList = async () => {
         try {
             const files = await DcmUploader.listFiles();
-            console.log("Received files:", files);  // 서버 응답 확인
+            console.log("Received files:", files);  // check server response
             setFileList(files);
         } catch (error) {
             console.error("Error fetching file list:", error);
@@ -45,7 +45,7 @@ function Upload() {
     };
     
     useEffect(() => {
-        fetchFileList(); // 컴포넌트 마운트 시 파일 목록을 가져옵니다.
+        fetchFileList(); // get the file list every componet mount 
     }, []);
 
     return (
