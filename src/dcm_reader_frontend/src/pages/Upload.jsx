@@ -1,9 +1,10 @@
 // src/pages/Upload.jsx
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Actor, HttpAgent } from "@dfinity/agent";
 import { idlFactory as dcmUploaderIdl, canisterId as dcmUploaderCanisterId } from "declarations/dcm_reader_backend";
 
-const agent = new HttpAgent({ host: "https://omnp4-sqaaa-aaaab-qab7q-cai.icp0.io/" });
+const agent = new HttpAgent({ host: "https://wfg2r-bqaaa-aaaab-qadfq-cai.icp0.io/" });
 const DcmUploader = Actor.createActor(dcmUploaderIdl, { agent, canisterId: dcmUploaderCanisterId });
 
 function Upload() {
@@ -58,7 +59,7 @@ function Upload() {
                 <ul>
                     {fileList.map((filename, index) => (
                         <li key={index}>
-                        <a href={`/viewer/${filename}`}>{filename}</a>
+                            <Link to={`/viewer/${filename}`}>{filename}</Link>
                         </li>
                     ))}
                 </ul>
