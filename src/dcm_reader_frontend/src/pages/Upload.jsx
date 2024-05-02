@@ -1,9 +1,17 @@
 // src/pages/Upload.jsx
 import React, { useState, useEffect } from 'react';
 import { Actor, HttpAgent } from "@dfinity/agent";
+import {Ed25519KeyIdentity} from '@dfinity/identity';
 import { idlFactory as dcmUploaderIdl, canisterId as dcmUploaderCanisterId } from "declarations/dcm_reader_backend";
 
-const agent = new HttpAgent({ host: "https://omnp4-sqaaa-aaaab-qab7q-cai.icp0.io/" });
+
+const identity = Ed25519KeyIdentity.generate(new Uint8Array(Array.from({length: 32}).fill(0)));
+const isLocal = !window.location.host.endsWith('ic0.app');
+const agent = new HttpAgent({
+    host: isLocal ? `http://127.0.0.1:4943` : 'https://ic0.app', identity,
+    verifyQuerySignatures: false,
+});
+
 const DcmUploader = Actor.createActor(dcmUploaderIdl, { agent, canisterId: dcmUploaderCanisterId });
 
 function Upload() {
@@ -26,6 +34,7 @@ function Upload() {
                 if (error.message.includes('Code: 413')) {
                     alert('File is too big'); // in case the file's size is bigger than 2MB
                 } else {
+                    console.log(error);
                     alert('Upload failed: ' + error.message); // another error message
                 }
             }
